@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	   <style type="text/css">
+			.auto-style1 {
+			font-family: Arial;
+			font-size: 23px;
+			}
+		</style>
+        <title>Contador Bombas de Calor Jacuzzi</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <script>
+	    //strCOUNTER = "";
+        function GetArduinoInputs()
+        {
+            nocache = "&nocache=" + Math.random() * 1000000;
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = function()
+            {
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        if (this.responseXML != null) {
+                            // extract XML data from XML file (containing switch states and analog value)
+                            document.getElementById("input1").innerHTML =
+                            this.responseXML.getElementsByTagName('counterPump1')[0].childNodes[0].nodeValue;
+                            document.getElementById("input2").innerHTML =
+                            this.responseXML.getElementsByTagName('counterPump2')[0].childNodes[0].nodeValue;
+                        }
+                    }
+                }
+            }
+            request.open("GET", "ajax_inputs" + nocache, true);
+            request.send(null);
+            setTimeout('GetArduinoInputs()', 2000);
+		        //strCOUNTER = "";
+        }
+	      function GetButton1(){
+            if (confirm("Confirma Reset a Bomba 1?") == true) {        
+                nocache = "&nocache=" + Math.random() * 1000000;
+                var request = new XMLHttpRequest();            
+                request.open("GET", "http://191.188.127.77/COUNTER1=0" + nocache, true);
+                request.send(null);
+            } 
+
+        }
+
+        function GetButton2(){
+            if (confirm("Confirma Reset a Bomba 2?") == true) {        
+                nocache = "&nocache=" + Math.random() * 1000000;
+                var request = new XMLHttpRequest();            
+                request.open("GET", "http://191.188.127.77/COUNTER2=0" + nocache, true);
+                request.send(null);
+            } 
+
+        }
+        function GetButton3(){                   
+            nocache = "&nocache=" + Math.random() * 1000000;
+            var request = new XMLHttpRequest();            
+            request.open("GET", "http://191.188.127.77/horas" + nocache, true);
+            request.send(null);
+        }
+
+        
+    </script>
+	  <style>
+	     .myButton {
+	         -moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
+	         -webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
+	         box-shadow:inset 0px 39px 0px -24px #e67a73;
+	         background-color:#e4685d;
+	         -moz-border-radius:4px;
+	         -webkit-border-radius:4px;
+	         border-radius:4px;
+	         border:1px solid #ffffff;
+	         display:inline-block;
+	         cursor:pointer;
+	         color:#ffffff;
+	         font-family:Arial;
+	         font-size:15px;
+	         padding:6px 15px;
+	         text-decoration:none;
+	         text-shadow:0px 1px 0px #b23e35;
+	     }
+	     .myButton:hover {
+	         background-color:#eb675e;
+	     }
+	     .myButton:active {
+	         position:relative;
+	         top:1px;
+	     }
+    </style>
+    </head>
+    <body onload="GetArduinoInputs()" style="background-color: #464344; color: #ffffff; font-family: Arial, Helvetica, sans-serif;">
+    	<br><br/>
+    	     <dd class="auto-style1" >Bombas Calor Jacuzzi - Horas Trabalhadas</dd>
+          <div id="panel1" style="position: absolute; left: 50px; top: 100px; width:250px; height:75px;border:1px solid #000;">
+            <dd class="auto-style1" style="position: absolute; left: -20px; top: 5px">Bomba 1</dd>
+            <div id="time1" style="position: absolute; left:125px; top: 42px; width:112px; height:25px;border:1px solid #000;"><span id="input1" style="font-size: 18px;">...</span></div>
+            <button class="myButton" type="button" id="RESET" style="position: absolute; left: 20px; top: 41px; height: 27px; width: 80px " onclick="GetButton1()">Reset</button><br /><br />
+          </div>        
+          <div id="panel1" style="position: absolute; left: 350px; top: 100px; width:250px; height:75px;border:1px solid #000;">
+            <dd class="auto-style1" style="position: absolute; left: -20px; top: 5px">Bomba 2</dd>
+            <div id="time1" style="position: absolute; left:125px; top: 42px; width:112px; height:25px;border:1px solid #000;"><span id="input2" style="font-size: 18px;">...</span></div>
+            <button class="myButton" type="button" id="RESET" style="position: absolute; left: 20px; top: 41px; height: 27px; width: 80px " onclick="GetButton2()">Reset</button><br /><br />
+          </div>        
+         <dd><span id="input10" class="auto-style1" style="visibility: hidden">...</span></dd>
+         <g class=button cursor=pointer style="position: absolute; left: 50px; top: 200px"onclick="window.open('http://191.188.127.77/horas1','_self')">
+            <svg height=70 width=170>
+            <defs>
+                <filter id=f1 x=0 y=0 width="200%" height="200%">
+                    <feoffset result=offOut in=SourceAlpha dx=7 dy=7 />
+                    <fegaussianblur result=blurOut in=offOut stddeviation=5 />
+                    <feblend in=SourceGraphic in2=blurOut mode=normal />
+                </filter>
+            </defs>
+            <rect rx=5 ry=5 width=150 height=40 stroke=black stroke-width=1 fill=grey filter="url(#f1)"/>
+            <text text x=75 y=25 text-anchor=middle>Ver Grafico Bomba 1</text></svg>
+        </g>
+        <g class=button cursor=pointer style="position: absolute; left: 350px; top: 200px"onclick="window.open('http://191.188.127.77/horas2','_self')">
+            <svg height=70 width=170>
+            <defs>
+                <filter id=f1 x=0 y=0 width="200%" height="200%">
+                <feoffset result=offOut in=SourceAlpha dx=7 dy=7 />
+                <fegaussianblur result=blurOut in=offOut stddeviation=5 />
+                <feblend in=SourceGraphic in2=blurOut mode=normal />
+                </filter>
+            </defs>
+            <rect rx=5 ry=5 width=150 height=40 stroke=black stroke-width=1 fill=grey filter="url(#f1)"/>
+            <text text x=75 y=25 text-anchor=middle>Ver Grafico Bomba 2</text></svg>
+        </g>
+              
+      </body>
+</html>
